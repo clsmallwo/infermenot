@@ -1,0 +1,20 @@
+{
+  "model": "models/deberta_mcq_ap_ready",
+  "data": "data/mcqs_ap_ready.jsonl",
+  "source": "ehovy/race/all",
+  "split": "test",
+  "questions": 4934,
+  "max_length": 192,
+  "batch_size": 8,
+  "accuracy": 0.44487231455208753,
+  "level_accuracy": {
+    "high": {
+      "questions": 3498,
+      "accuracy": 0.42166952544311037
+    },
+    "middle": {
+      "questions": 1436,
+      "accuracy": 0.5013927576601671
+    }
+  }
+}

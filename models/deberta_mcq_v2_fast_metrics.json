@@ -1,0 +1,25 @@
+{
+  "base_model": "models/deberta_mcq_classifier",
+  "train_questions": 10000,
+  "choice_counts": {
+    "4": 8000,
+    "5": 1000,
+    "8": 1000
+  },
+  "optimizer_steps": 313,
+  "frozen_lower_layers": 8,
+  "validation": {
+    "accuracy": 0.556,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.4261168384879725,
+      "allenai/ai2_arc/ARC-Easy": 0.63003663003663,
+      "allenai/openbookqa/main": 0.5398773006134969
+    }
+  },
+  "test": {
+    "accuracy": 0.651,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Easy": 0.651
+    }
+  }
+}

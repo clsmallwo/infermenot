@@ -1,0 +1,102 @@
+{
+  "base_model": "models/deberta_mcq_classifier_extended_aligned",
+  "data": "data/mcqs_ap_ready.jsonl",
+  "training_args": {
+    "epochs": 1,
+    "batch_size": 8,
+    "learning_rate": 8e-06,
+    "max_length": 256,
+    "max_train": 0,
+    "max_train_per_source": 4000,
+    "eval_limit": 0,
+    "eval_limit_per_source": 600,
+    "gradient_accumulation_steps": 4,
+    "freeze_lower_layers": 2,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.08,
+    "warmup_steps": 108,
+    "seed": 7
+  },
+  "train_questions": 43234,
+  "validation_questions": 6737,
+  "test_questions": 4700,
+  "choice_counts": {
+    "2": 4328,
+    "3": 842,
+    "4": 29551,
+    "5": 4004,
+    "6": 23,
+    "7": 486,
+    "8": 4000
+  },
+  "train_source_counts": {
+    "Rowan/hellaswag": 4000,
+    "allenai/ai2_arc/ARC-Challenge": 1094,
+    "allenai/ai2_arc/ARC-Easy": 2140,
+    "allenai/openbookqa/main": 4000,
+    "allenai/qasc": 4000,
+    "allenai/sciq": 4000,
+    "cais/mmlu/all": 4000,
+    "derek-thomas/ScienceQA": 4000,
+    "ehovy/race/all": 4000,
+    "notefill/ck12-tqa-instruction": 4000,
+    "openlifescienceai/medmcqa": 4000,
+    "tau/commonsense_qa": 4000
+  },
+  "validation_source_counts": {
+    "Rowan/hellaswag": 600,
+    "allenai/ai2_arc/ARC-Challenge": 291,
+    "allenai/ai2_arc/ARC-Easy": 546,
+    "allenai/openbookqa/main": 500,
+    "allenai/qasc": 600,
+    "allenai/sciq": 600,
+    "cais/mmlu/all": 600,
+    "derek-thomas/ScienceQA": 600,
+    "ehovy/race/all": 600,
+    "notefill/ck12-tqa-instruction": 600,
+    "openlifescienceai/medmcqa": 600,
+    "tau/commonsense_qa": 600
+  },
+  "test_source_counts": {
+    "allenai/ai2_arc/ARC-Challenge": 600,
+    "allenai/ai2_arc/ARC-Easy": 600,
+    "allenai/openbookqa/main": 500,
+    "allenai/sciq": 600,
+    "cais/mmlu/all": 600,
+    "derek-thomas/ScienceQA": 600,
+    "ehovy/race/all": 600,
+    "notefill/ck12-tqa-instruction": 600
+  },
+  "optimizer_steps": 1352,
+  "frozen_lower_layers": 2,
+  "validation": {
+    "accuracy": 0.5610805996734451,
+    "source_accuracy": {
+      "Rowan/hellaswag": 0.545,
+      "allenai/ai2_arc/ARC-Challenge": 0.4570446735395189,
+      "allenai/ai2_arc/ARC-Easy": 0.6391941391941391,
+      "allenai/openbookqa/main": 0.576,
+      "allenai/qasc": 0.9583333333333334,
+      "allenai/sciq": 0.755,
+      "cais/mmlu/all": 0.3333333333333333,
+      "derek-thomas/ScienceQA": 0.6416666666666667,
+      "ehovy/race/all": 0.5016666666666667,
+      "notefill/ck12-tqa-instruction": 0.415,
+      "openlifescienceai/medmcqa": 0.31,
+      "tau/commonsense_qa": 0.5566666666666666
+    }
+  },
+  "test": {
+    "accuracy": 0.5338297872340425,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.43333333333333335,
+      "allenai/ai2_arc/ARC-Easy": 0.625,
+      "allenai/openbookqa/main": 0.586,
+      "allenai/sciq": 0.7616666666666667,
+      "cais/mmlu/all": 0.33166666666666667,
+      "derek-thomas/ScienceQA": 0.6133333333333333,
+      "ehovy/race/all": 0.47333333333333333,
+      "notefill/ck12-tqa-instruction": 0.455
+    }
+  }
+}

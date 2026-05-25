@@ -1,0 +1,9 @@
+{
+  "model": "/Users/cooper/.cache/huggingface/hub/models--allenai--unifiedqa-t5-large/snapshots/329dd6708bfc728689899819186a28235fcd416c",
+  "split": "validation",
+  "questions": 100,
+  "accuracy": 0.65,
+  "source_accuracy": {
+    "allenai/ai2_arc/ARC-Easy": 0.65
+  }
+}

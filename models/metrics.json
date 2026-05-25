@@ -1,0 +1,46 @@
+{
+  "train_questions": 19870,
+  "validation_questions": 2337,
+  "test_questions": 4912,
+  "validation_grouped_accuracy": 0.37783483097988874,
+  "test_grouped_accuracy": 0.3485342019543974,
+  "validation_pair_report": {
+    "0": {
+      "precision": 0.7971470915153761,
+      "recall": 0.6137498217087434,
+      "f1-score": 0.6935288903215407,
+      "support": 7011
+    },
+    "1": {
+      "precision": 0.31443037974683546,
+      "recall": 0.5314505776636713,
+      "f1-score": 0.39510100206775883,
+      "support": 2337
+    },
+    "accuracy": 0.5931750106974754,
+    "macro avg": {
+      "precision": 0.5557887356311058,
+      "recall": 0.5726001996862073,
+      "f1-score": 0.5443149461946498,
+      "support": 9348
+    },
+    "weighted avg": {
+      "precision": 0.6764679135732409,
+      "recall": 0.5931750106974754,
+      "f1-score": 0.6189219182580953,
+      "support": 9348
+    }
+  },
+  "validation_source_accuracy": {
+    "allenai/ai2_arc/ARC-Challenge": 0.27835051546391754,
+    "allenai/ai2_arc/ARC-Easy": 0.2967032967032967,
+    "allenai/openbookqa/main": 0.422,
+    "allenai/sciq": 0.429
+  },
+  "test_source_accuracy": {
+    "allenai/ai2_arc/ARC-Challenge": 0.2910839160839161,
+    "allenai/ai2_arc/ARC-Easy": 0.33818342151675485,
+    "allenai/openbookqa/main": 0.402,
+    "allenai/sciq": 0.411
+  }
+}

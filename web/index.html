@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MCQ Inference</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fa;
+        --panel: #ffffff;
+        --ink: #18202a;
+        --muted: #687384;
+        --line: #d9dee7;
+        --accent: #176b5d;
+        --accent-strong: #0d4f44;
+        --warn: #a05310;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 40px;
+      }
+
+      header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 0 0 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.1;
+        font-weight: 720;
+        letter-spacing: 0;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--warn);
+      }
+
+      .dot.on {
+        background: var(--accent);
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: 24px;
+        padding-top: 24px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      label {
+        display: block;
+        margin: 0 0 7px;
+        color: #334052;
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      textarea,
+      input {
+        width: 100%;
+        border: 1px solid #c8cfda;
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 15px;
+        line-height: 1.35;
+        outline: none;
+        transition: border-color 120ms ease, box-shadow 120ms ease;
+      }
+
+      textarea {
+        min-height: 142px;
+        resize: vertical;
+        padding: 12px;
+      }
+
+      input {
+        min-height: 44px;
+        padding: 9px 11px;
+      }
+
+      textarea:focus,
+      input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(23, 107, 93, 0.12);
+      }
+
+      .choices {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .paste-box {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .mode-tabs {
+        display: inline-grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        margin-bottom: 16px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f2f5f8;
+      }
+
+      .mode-tab {
+        min-height: 34px;
+        border-radius: 6px;
+        padding: 0 12px;
+        background: transparent;
+        color: #334052;
+      }
+
+      .mode-tab.active {
+        background: var(--accent);
+        color: white;
+      }
+
+      .model-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      select {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid #c8cfda;
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+        font-size: 15px;
+        padding: 8px 10px;
+      }
+
+      .model-size {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #f8f9fb;
+        color: #334052;
+        padding: 0 12px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .paste-box textarea {
+        min-height: 118px;
+      }
+
+      .paste-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .hint {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .choice-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .badge {
+        display: inline-grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #e9f2f0;
+        color: var(--accent-strong);
+        font-weight: 760;
+        font-size: 12px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      button {
+        min-height: 42px;
+        border: 0;
+        border-radius: 6px;
+        padding: 0 16px;
+        background: var(--accent);
+        color: white;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: var(--accent-strong);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.68;
+      }
+
+      .ghost {
+        background: transparent;
+        border: 1px solid var(--line);
+        color: #334052;
+      }
+
+      .ghost:hover {
+        background: #eef1f5;
+        color: #222b37;
+      }
+
+      .result-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .answer {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: #e4f3ef;
+        color: var(--accent-strong);
+        font-size: 36px;
+        font-weight: 800;
+      }
+
+      .answer.magic {
+        width: min(220px, 42vw);
+        min-height: 72px;
+        height: auto;
+        border-radius: 8px;
+        padding: 14px;
+        text-align: center;
+        font-size: 20px;
+        line-height: 1.15;
+      }
+
+      .subtle {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .bars {
+        display: grid;
+        gap: 12px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1fr) 58px;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .track {
+        height: 12px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: #e7ebf0;
+      }
+
+      .fill {
+        width: 0%;
+        height: 100%;
+        background: #7a8798;
+        transition: width 180ms ease;
+      }
+
+      .bar-row.best .fill {
+        background: var(--accent);
+      }
+
+      .error {
+        display: none;
+        margin-top: 12px;
+        color: #a21d1d;
+        font-size: 14px;
+      }
+
+      .training-match {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .quality-box {
+        display: none;
+        margin: 0 0 16px;
+        border: 1px solid #e2c47a;
+        border-radius: 8px;
+        background: #fff8e6;
+        color: #5a3d08;
+        padding: 12px;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .quality-box.ok {
+        border-color: #cfe4dc;
+        background: #f3faf7;
+        color: #234a40;
+      }
+
+      .quality-title {
+        font-weight: 760;
+        margin-bottom: 4px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .match-card {
+        margin-top: 8px;
+        border: 1px solid #d8e4e1;
+        border-radius: 8px;
+        background: #f8fbfa;
+        padding: 12px;
+      }
+
+      .match-card.empty {
+        background: #f8f9fb;
+        border-color: var(--line);
+      }
+
+      .match-phrase {
+        color: var(--accent-strong);
+        font-weight: 760;
+      }
+
+      .match-excerpt {
+        margin: 8px 0;
+        color: #283443;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .match-meta {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      @media (max-width: 820px) {
+        header {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .workspace,
+        .choices,
+        .model-row {
+          grid-template-columns: 1fr;
+        }
+
+        main {
+          width: min(100% - 24px, 1120px);
+          padding-top: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>MCQ Inference</h1>
+        <div class="status"><span id="metalDot" class="dot"></span><span id="statusText">Loading model status...</span></div>
+      </header>
+
+      <section class="workspace">
+        <form id="questionForm" class="panel">
+          <div class="mode-tabs" role="tablist" aria-label="Inference mode">
+            <button class="mode-tab active" type="button" id="mcqModeButton">MCQ</button>
+            <button class="mode-tab" type="button" id="magicModeButton">Magic 8 Ball</button>
+          </div>
+
+          <div class="model-row">
+            <div>
+              <label for="modelSelect">Model</label>
+              <select id="modelSelect"></select>
+            </div>
+            <div class="model-size" id="modelSize">Loading...</div>
+          </div>
+
+          <div class="paste-box" id="pasteBox">
+            <label for="formattedMcq">Paste Formatted MCQ</label>
+            <textarea id="formattedMcq" name="formattedMcq" placeholder="Which sentence is grammatically correct?
+
+Choices:
+- **A:** She don't like coffee.
+- **B:** She doesn't like coffee.
+- **C:** She not like coffee.
+- **D:** She doesn't likes coffee.
+
+Expected answer: B"></textarea>
+            <div class="paste-actions">
+              <button class="ghost" type="button" id="fillFromPasteButton">Fill Fields</button>
+              <span class="hint">Accepts Markdown choices like <strong>- **A:** answer</strong> or plain <strong>A: answer</strong>.</span>
+            </div>
+          </div>
+
+          <label for="question" id="questionLabel">Question</label>
+          <textarea id="question" name="question" required>Is water wet?</textarea>
+          <div class="hint" id="questionHint">Use a complete question and answer choices that are mutually exclusive.</div>
+
+          <div class="choices" id="choicesGrid">
+            <div>
+              <div class="choice-label"><label for="choiceA">Choice A</label><span class="badge">A</span></div>
+              <input id="choiceA" value="yes" required />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceB">Choice B</label><span class="badge">B</span></div>
+              <input id="choiceB" value="no" required />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceC">Choice C</label><span class="badge">C</span></div>
+              <input id="choiceC" value="" />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceD">Choice D</label><span class="badge">D</span></div>
+              <input id="choiceD" value="" />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceE">Choice E</label><span class="badge">E</span></div>
+              <input id="choiceE" value="" />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceF">Choice F</label><span class="badge">F</span></div>
+              <input id="choiceF" value="" />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceG">Choice G</label><span class="badge">G</span></div>
+              <input id="choiceG" value="" />
+            </div>
+            <div>
+              <div class="choice-label"><label for="choiceH">Choice H</label><span class="badge">H</span></div>
+              <input id="choiceH" value="" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="submitButton" type="submit">Run Inference</button>
+            <button class="ghost" type="button" id="clearButton">Clear</button>
+          </div>
+          <div id="error" class="error"></div>
+        </form>
+
+        <aside class="panel">
+          <div class="result-head">
+            <div>
+              <label>Prediction</label>
+              <div class="subtle" id="resultMeta">Waiting for a question</div>
+            </div>
+            <div id="answer" class="answer">-</div>
+          </div>
+
+          <div id="qualityBox" class="quality-box"></div>
+
+          <div class="bars" id="bars"></div>
+
+          <div class="training-match">
+            <label>Training Data Phrase Match</label>
+            <div id="trainingMatch" class="match-card empty">
+              <div class="subtle">Run inference to check the training set.</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+      const form = document.getElementById("questionForm");
+      const button = document.getElementById("submitButton");
+      const error = document.getElementById("error");
+      const answer = document.getElementById("answer");
+      const resultMeta = document.getElementById("resultMeta");
+      const bars = document.getElementById("bars");
+      const qualityBox = document.getElementById("qualityBox");
+      const trainingMatch = document.getElementById("trainingMatch");
+      const formattedMcq = document.getElementById("formattedMcq");
+      const pasteBox = document.getElementById("pasteBox");
+      const choicesGrid = document.getElementById("choicesGrid");
+      const questionLabel = document.getElementById("questionLabel");
+      const questionHint = document.getElementById("questionHint");
+      const mcqModeButton = document.getElementById("mcqModeButton");
+      const magicModeButton = document.getElementById("magicModeButton");
+      const modelSelect = document.getElementById("modelSelect");
+      const modelSize = document.getElementById("modelSize");
+      let mode = "mcq";
+      let availableModels = [];
+
+      function setError(message) {
+        error.textContent = message || "";
+        error.style.display = message ? "block" : "none";
+      }
+
+      function renderBars(probabilities = {}) {
+        bars.innerHTML = "";
+        const best = Object.entries(probabilities).sort((a, b) => b[1] - a[1])[0]?.[0];
+        const activeLetters = letters.filter((letter) => Object.prototype.hasOwnProperty.call(probabilities, letter));
+        for (const letter of activeLetters) {
+          const value = probabilities[letter] || 0;
+          const row = document.createElement("div");
+          row.className = `bar-row ${letter === best ? "best" : ""}`;
+          row.innerHTML = `
+            <strong>${letter}</strong>
+            <div class="track"><div class="fill" style="width: ${(value * 100).toFixed(1)}%"></div></div>
+            <span>${(value * 100).toFixed(1)}%</span>
+          `;
+          bars.appendChild(row);
+        }
+      }
+
+      function renderQuality(quality) {
+        if (!quality) {
+          qualityBox.style.display = "none";
+          qualityBox.innerHTML = "";
+          return;
+        }
+        const confidence = quality.confidence?.level || "unknown";
+        const issues = quality.issues || [];
+        qualityBox.classList.toggle("ok", quality.status === "ok");
+        qualityBox.style.display = "block";
+        if (quality.status === "ok") {
+          qualityBox.innerHTML = `
+            <div class="quality-title">Input quality: usable</div>
+            <div>Model confidence is ${escapeHtml(confidence)}.</div>
+          `;
+          return;
+        }
+        qualityBox.innerHTML = `
+          <div class="quality-title">Needs a clearer MCQ</div>
+          <div>${issues.map(escapeHtml).join("<br />")}</div>
+        `;
+      }
+
+      async function parseJsonResponse(response) {
+        const text = await response.text();
+        try {
+          return text ? JSON.parse(text) : {};
+        } catch {
+          throw new Error(text || `Request failed with HTTP ${response.status}`);
+        }
+      }
+
+      function selectedModel() {
+        return modelSelect.value || availableModels.find((model) => model.default)?.id || "longformer-race";
+      }
+
+      function updateModelSize() {
+        const model = availableModels.find((entry) => entry.id === selectedModel());
+        modelSize.textContent = model ? model.size : "-";
+        modelSize.title = model ? `${model.model_name}\n${model.description}` : "";
+      }
+
+      async function loadModels() {
+        const response = await fetch("/api/models");
+        const payload = await response.json();
+        availableModels = payload.models || [];
+        modelSelect.innerHTML = "";
+        for (const model of availableModels) {
+          const option = document.createElement("option");
+          option.value = model.id;
+          option.textContent = model.label;
+          option.selected = model.id === payload.default_model_id;
+          modelSelect.appendChild(option);
+        }
+        updateModelSize();
+      }
+
+      function setMode(nextMode) {
+        mode = nextMode;
+        const isMagic = mode === "magic";
+        mcqModeButton.classList.toggle("active", !isMagic);
+        magicModeButton.classList.toggle("active", isMagic);
+        pasteBox.classList.toggle("hidden", isMagic);
+        choicesGrid.classList.toggle("hidden", isMagic);
+        questionLabel.textContent = isMagic ? "Ask The Magic 8 Ball" : "Question";
+        questionHint.textContent = isMagic
+          ? "Ask a yes/no-style question; the model ranks the classic Magic 8 Ball responses."
+          : "Use a complete question and answer choices that are mutually exclusive.";
+        button.textContent = isMagic ? "Shake 8 Ball" : "Run Inference";
+        answer.textContent = "-";
+        answer.classList.toggle("magic", isMagic);
+        resultMeta.textContent = isMagic ? "Waiting for a question" : "Waiting for a question";
+        bars.innerHTML = "";
+        renderQuality(null);
+        setError("");
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function renderTrainingMatch(match) {
+        if (!match) {
+          trainingMatch.className = "match-card empty";
+          trainingMatch.innerHTML = '<div class="subtle">No matching training phrase found.</div>';
+          return;
+        }
+
+        trainingMatch.className = "match-card";
+        trainingMatch.innerHTML = `
+          <div class="match-phrase">${match.match_type === "content" ? "Similar content" : "Matched phrase"}: "${escapeHtml(match.matched_phrase)}"</div>
+          <div class="match-excerpt">${escapeHtml(match.question_excerpt)}</div>
+          <div class="match-meta">
+            Source: ${escapeHtml(match.source)}<br />
+            ${match.match_type === "content" ? `Similarity: ${(match.score * 100).toFixed(1)}%<br />` : ""}
+            Training answer: ${escapeHtml(match.answer)} — ${escapeHtml(match.answer_text)}
+          </div>
+        `;
+      }
+
+      function parseFormattedMcq(raw) {
+        const parsed = { question: "", choices: {} };
+        const questionLines = [];
+        const lines = raw.replace(/\r\n?/g, "\n").split("\n");
+        let sawChoice = false;
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          if (/^(choices?|options?)\s*:?\s*$/i.test(trimmed)) {
+            continue;
+          }
+          if (/^expected\s+answer\s*:/i.test(trimmed)) {
+            break;
+          }
+
+          const choiceMatch = trimmed.match(/^(?:[-*]\s*)?(?:\*\*)?([A-H])\s*[:.)-](?:\*\*)?\s*(.+)$/i);
+          if (choiceMatch) {
+            sawChoice = true;
+            parsed.choices[choiceMatch[1].toUpperCase()] = choiceMatch[2].trim();
+            continue;
+          }
+
+          if (!sawChoice) {
+            questionLines.push(trimmed.replace(/^\*\*|\*\*$/g, ""));
+          }
+        }
+
+        parsed.question = questionLines.join("\n").trim();
+        return parsed;
+      }
+
+      function fillFromFormattedMcq() {
+        setError("");
+        const parsed = parseFormattedMcq(formattedMcq.value);
+        if (!parsed.question || Object.keys(parsed.choices).length < 2) {
+          setError("Paste a question and at least two choices formatted as A: answer.");
+          return;
+        }
+
+        document.getElementById("question").value = parsed.question;
+        for (const letter of letters) {
+          document.getElementById(`choice${letter}`).value = parsed.choices[letter] || "";
+        }
+      }
+
+      async function loadStatus() {
+        const response = await fetch("/api/status");
+        const status = await response.json();
+        document.getElementById("metalDot").classList.toggle("on", status.uses_metal);
+        document.getElementById("statusText").textContent = status.uses_metal
+          ? `Running on Apple Metal (${status.device})`
+          : `Running on ${status.device}`;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        setError("");
+        button.disabled = true;
+        button.textContent = "Running...";
+        const payload = {
+          question: document.getElementById("question").value,
+          model_id: selectedModel(),
+          choices: Object.fromEntries(
+            letters.map((letter) => [letter, document.getElementById(`choice${letter}`).value])
+          ),
+        };
+        const endpoint = mode === "magic" ? "/api/magic-eight-ball" : "/api/predict";
+        const requestPayload = mode === "magic" ? { question: payload.question, model_id: payload.model_id } : payload;
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestPayload),
+          });
+          const data = await parseJsonResponse(response);
+          if (!response.ok) throw new Error(data.detail || "Prediction failed");
+          answer.textContent = mode === "magic" ? data.message : data.answer;
+          resultMeta.textContent = data.uses_metal
+            ? `${mode === "magic" ? "8 Ball" : "Inference"} completed on Metal with ${data.model_label}`
+            : `${mode === "magic" ? "8 Ball" : "Inference"} completed on ${data.device} with ${data.model_label}`;
+          renderBars(data.probabilities);
+          renderQuality(data.quality);
+          renderTrainingMatch(data.training_match);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          button.disabled = false;
+          button.textContent = mode === "magic" ? "Shake 8 Ball" : "Run Inference";
+        }
+      });
+
+      document.getElementById("clearButton").addEventListener("click", () => {
+        form.reset();
+        formattedMcq.value = "";
+        answer.textContent = "-";
+        resultMeta.textContent = "Waiting for a question";
+        bars.innerHTML = "";
+        renderQuality(null);
+        trainingMatch.className = "match-card empty";
+        trainingMatch.innerHTML = '<div class="subtle">Run inference to check the training set.</div>';
+        setError("");
+        setMode(mode);
+      });
+
+      mcqModeButton.addEventListener("click", () => setMode("mcq"));
+      magicModeButton.addEventListener("click", () => setMode("magic"));
+      modelSelect.addEventListener("change", updateModelSize);
+      document.getElementById("fillFromPasteButton").addEventListener("click", fillFromFormattedMcq);
+      formattedMcq.addEventListener("paste", () => {
+        setTimeout(() => {
+          if (formattedMcq.value.trim()) fillFromFormattedMcq();
+        }, 0);
+      });
+
+      renderBars({ A: 0, B: 0 });
+      renderQuality(null);
+      loadModels().catch(() => {
+        modelSize.textContent = "Unavailable";
+      });
+      loadStatus().catch(() => {
+        document.getElementById("statusText").textContent = "Model status unavailable";
+      });
+    </script>
+  </body>
+</html>

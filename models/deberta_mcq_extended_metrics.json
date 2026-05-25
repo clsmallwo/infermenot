@@ -1,0 +1,27 @@
+{
+  "base_model": "models/deberta_mcq_classifier",
+  "train_questions": 49870,
+  "validation": {
+    "accuracy": 0.42842788684495287,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.3917525773195876,
+      "allenai/ai2_arc/ARC-Easy": 0.6227106227106227,
+      "allenai/openbookqa/main": 0.552,
+      "allenai/sciq": 0.771,
+      "cais/mmlu/all": 0.3442194644023514,
+      "ehovy/race/all": 0.46388377327603847,
+      "openlifescienceai/medmcqa": 0.2983504661726034
+    }
+  },
+  "test": {
+    "accuracy": 0.4197923643670462,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.42744755244755245,
+      "allenai/ai2_arc/ARC-Easy": 0.6119929453262787,
+      "allenai/openbookqa/main": 0.566,
+      "allenai/sciq": 0.754,
+      "cais/mmlu/all": 0.3488819256516166,
+      "ehovy/race/all": 0.4489258208350223
+    }
+  }
+}

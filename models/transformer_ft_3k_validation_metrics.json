@@ -1,0 +1,12 @@
+{
+  "model": "models/unifiedqa_mcq_ft_3k",
+  "split": "validation",
+  "questions": 2337,
+  "accuracy": 0.4073598630723149,
+  "source_accuracy": {
+    "allenai/ai2_arc/ARC-Challenge": 0.3333333333333333,
+    "allenai/ai2_arc/ARC-Easy": 0.3498168498168498,
+    "allenai/openbookqa/main": 0.448,
+    "allenai/sciq": 0.44
+  }
+}

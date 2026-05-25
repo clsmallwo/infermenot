@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Keep the song-history data needed for the Colab training notebook.
+data/*
+!data/music_song_history_10mb.jsonl
+!data/music_song_history_trainable.jsonl
+
+# Model checkpoints are too large for normal GitHub pushes.
+models/*
+!models/*metrics*.json
+!models/metrics.json
+
+.ipynb_checkpoints/

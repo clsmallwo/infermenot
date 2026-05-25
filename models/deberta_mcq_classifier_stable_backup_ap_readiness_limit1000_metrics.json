@@ -1,0 +1,113 @@
+{
+  "model": "models/deberta_mcq_classifier_stable_backup",
+  "data": "data/mcqs_ap_ready.jsonl",
+  "split": "test",
+  "questions": 1000,
+  "accuracy": 0.451,
+  "category_accuracy": {
+    "ARC Challenge science": {
+      "questions": 112,
+      "accuracy": 0.4642857142857143
+    },
+    "CK-12 science": {
+      "questions": 280,
+      "accuracy": 0.49642857142857144
+    },
+    "MMLU / astronomy": {
+      "questions": 18,
+      "accuracy": 0.2222222222222222
+    },
+    "MMLU / college biology": {
+      "questions": 13,
+      "accuracy": 0.23076923076923078
+    },
+    "MMLU / college chemistry": {
+      "questions": 3,
+      "accuracy": 0.0
+    },
+    "MMLU / college mathematics": {
+      "questions": 10,
+      "accuracy": 0.3
+    },
+    "MMLU / college physics": {
+      "questions": 10,
+      "accuracy": 0.1
+    },
+    "MMLU / conceptual physics": {
+      "questions": 15,
+      "accuracy": 0.4
+    },
+    "MMLU / econometrics": {
+      "questions": 11,
+      "accuracy": 0.18181818181818182
+    },
+    "MMLU / formal logic": {
+      "questions": 6,
+      "accuracy": 0.16666666666666666
+    },
+    "MMLU / high school biology": {
+      "questions": 31,
+      "accuracy": 0.2903225806451613
+    },
+    "MMLU / high school chemistry": {
+      "questions": 25,
+      "accuracy": 0.12
+    },
+    "MMLU / high school computer science": {
+      "questions": 12,
+      "accuracy": 0.4166666666666667
+    },
+    "MMLU / high school european history": {
+      "questions": 20,
+      "accuracy": 0.2
+    },
+    "MMLU / high school geography": {
+      "questions": 22,
+      "accuracy": 0.5
+    },
+    "MMLU / high school government and politics": {
+      "questions": 11,
+      "accuracy": 0.36363636363636365
+    },
+    "MMLU / high school macroeconomics": {
+      "questions": 36,
+      "accuracy": 0.3055555555555556
+    },
+    "MMLU / high school mathematics": {
+      "questions": 24,
+      "accuracy": 0.16666666666666666
+    },
+    "MMLU / high school microeconomics": {
+      "questions": 24,
+      "accuracy": 0.5
+    },
+    "MMLU / high school physics": {
+      "questions": 13,
+      "accuracy": 0.38461538461538464
+    },
+    "MMLU / high school psychology": {
+      "questions": 51,
+      "accuracy": 0.39215686274509803
+    },
+    "MMLU / high school statistics": {
+      "questions": 21,
+      "accuracy": 0.14285714285714285
+    },
+    "MMLU / high school us history": {
+      "questions": 21,
+      "accuracy": 0.5238095238095238
+    },
+    "MMLU / high school world history": {
+      "questions": 20,
+      "accuracy": 0.35
+    },
+    "SciQ science": {
+      "questions": 95,
+      "accuracy": 0.8210526315789474
+    },
+    "ScienceQA upper-grade": {
+      "questions": 96,
+      "accuracy": 0.5520833333333334
+    }
+  }
+}

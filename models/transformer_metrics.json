@@ -1,0 +1,9 @@
+{
+  "model": "allenai/unifiedqa-t5-base",
+  "split": "validation",
+  "questions": 100,
+  "accuracy": 0.51,
+  "source_accuracy": {
+    "allenai/ai2_arc/ARC-Easy": 0.51
+  }
+}

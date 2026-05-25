@@ -1,0 +1,12 @@
+{
+  "model": "allenai/unifiedqa-t5-base",
+  "split": "test",
+  "questions": 4912,
+  "accuracy": 0.46172638436482083,
+  "source_accuracy": {
+    "allenai/ai2_arc/ARC-Challenge": 0.3924825174825175,
+    "allenai/ai2_arc/ARC-Easy": 0.486331569664903,
+    "allenai/openbookqa/main": 0.506,
+    "allenai/sciq": 0.463
+  }
+}

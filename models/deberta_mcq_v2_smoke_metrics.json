@@ -1,0 +1,23 @@
+{
+  "base_model": "models/deberta_mcq_classifier",
+  "train_questions": 512,
+  "choice_counts": {
+    "4": 411,
+    "5": 56,
+    "8": 45
+  },
+  "optimizer_steps": 17,
+  "frozen_lower_layers": 8,
+  "validation": {
+    "accuracy": 0.6015625,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Easy": 0.6015625
+    }
+  },
+  "test": {
+    "accuracy": 0.65625,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Easy": 0.65625
+    }
+  }
+}

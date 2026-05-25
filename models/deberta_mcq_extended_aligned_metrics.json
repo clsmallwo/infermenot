@@ -1,0 +1,22 @@
+{
+  "base_model": "models/deberta_mcq_classifier_extended",
+  "train_questions": 19870,
+  "validation": {
+    "accuracy": 0.6602481814291827,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.4329896907216495,
+      "allenai/ai2_arc/ARC-Easy": 0.6282051282051282,
+      "allenai/openbookqa/main": 0.584,
+      "allenai/sciq": 0.782
+    }
+  },
+  "test": {
+    "accuracy": 0.6133957654723127,
+    "source_accuracy": {
+      "allenai/ai2_arc/ARC-Challenge": 0.4493006993006993,
+      "allenai/ai2_arc/ARC-Easy": 0.6335978835978836,
+      "allenai/openbookqa/main": 0.594,
+      "allenai/sciq": 0.765
+    }
+  }
+}

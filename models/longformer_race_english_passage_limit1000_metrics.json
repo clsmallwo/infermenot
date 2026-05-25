@@ -1,0 +1,18 @@
+{
+  "model": "potsawee/longformer-large-4096-answering-race",
+  "data": "data/mcqs_ap_ready.jsonl",
+  "source": "ehovy/race/all",
+  "split": "test",
+  "questions": 1000,
+  "accuracy": 0.789,
+  "level_accuracy": {
+    "high": {
+      "questions": 727,
+      "accuracy": 0.782668500687758
+    },
+    "middle": {
+      "questions": 273,
+      "accuracy": 0.8058608058608059
+    }
+  }
+}

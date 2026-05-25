@@ -1,0 +1,67 @@
+{
+  "base_model": "microsoft/deberta-v3-small",
+  "data": [
+    "data/music_song_history_trainable.jsonl"
+  ],
+  "training_args": {
+    "epochs": 1,
+    "batch_size": 8,
+    "learning_rate": 1e-05,
+    "max_length": 160,
+    "max_train": 0,
+    "max_train_per_source": 0,
+    "eval_limit": 0,
+    "eval_limit_per_source": 0,
+    "gradient_accumulation_steps": 4,
+    "freeze_lower_layers": 8,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.06,
+    "warmup_steps": 55,
+    "mixed_precision": "auto",
+    "resolved_amp_dtype": "float16",
+    "matmul_precision": "high",
+    "length_bucketing": true,
+    "fused_adamw": false,
+    "eval_batch_size": 16,
+    "log_every": 200,
+    "max_choices": 0,
+    "max_question_chars": 0,
+    "max_choice_chars": 0,
+    "seed": 7
+  },
+  "device": "mps",
+  "parameters": {
+    "total": 141895681,
+    "trainable": 986113,
+    "frozen": 140909568
+  },
+  "train_questions": 29671,
+  "validation_questions": 2023,
+  "test_questions": 2024,
+  "choice_counts": {
+    "4": 29671
+  },
+  "train_source_counts": {
+    "synthetic/music_song_history_v1": 29671
+  },
+  "validation_source_counts": {
+    "synthetic/music_song_history_v1": 2023
+  },
+  "test_source_counts": {
+    "synthetic/music_song_history_v1": 2024
+  },
+  "optimizer_steps": 928,
+  "frozen_lower_layers": 8,
+  "validation": {
+    "accuracy": 0.3939693524468611,
+    "source_accuracy": {
+      "synthetic/music_song_history_v1": 0.3939693524468611
+    }
+  },
+  "test": {
+    "accuracy": 0.41205533596837945,
+    "source_accuracy": {
+      "synthetic/music_song_history_v1": 0.41205533596837945
+    }
+  }
+}
